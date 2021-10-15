@@ -1,0 +1,2 @@
+def boruvka(nodes):
+    subtrees = []
