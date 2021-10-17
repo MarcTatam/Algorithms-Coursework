@@ -3,13 +3,11 @@ class node:
     neighbours = []
     connections = {}
 
-    def __init__(self, *args, **kwargs):
-        return
-
+    def __init__(self, label, *args, **kwargs):
+        self.label = label
     def connect(self, target, distance):
         self.neighbours.append(target)
         self.connections[target] = distance
-        return
 
     def connected(self, target)->bool:
         return target in self.neighbours
