@@ -7,12 +7,13 @@ def same_tree(forest, node1, node2):
     return False
 
 def get_tree_index(forest, node):
-    for tree_index in len(forest):
+    for tree_index in range(0,len(forest)):
         if node in forest[tree_index]:
             return tree_index
 
 def boruvka(transition_matrix: np.ndarray):
     dimensions = transition_matrix.shape[0]
+    print(transition_matrix)
     subtrees = []
     minimum_spanning_matrix = np.ones((dimensions,dimensions)) *-1
     incomplete = True
@@ -38,19 +39,26 @@ def boruvka(transition_matrix: np.ndarray):
             tree2_index = get_tree_index(new_subtrees, lowest_path[1])
             if tree1_index > tree2_index:
                 new_tree = new_subtrees[tree2_index] + new_subtrees[tree1_index]
-                new_subtrees.pop(tree2_index)
                 new_subtrees.pop(tree1_index)
+                new_subtrees.pop(tree2_index)
+                new_subtrees.append(new_tree)
             else:
                 new_tree = new_subtrees[tree2_index] + new_subtrees[tree1_index]
-                new_subtrees.pop(tree1_index)
                 new_subtrees.pop(tree2_index)
+                new_subtrees.pop(tree1_index)
+                new_subtrees.append(new_tree)
+            print(lowest_path)
+            minimum_spanning_matrix[lowest_path[0]][lowest_path[1]] = lowest_value
+            minimum_spanning_matrix[lowest_path[1]][lowest_path[0]] = lowest_value
         subtrees = new_subtrees
         if len(subtrees) == 1:
-            incomplete = false
-
-    print(minimum_spanning_matrix)
+            incomplete = False
+    return minimum_spanning_matrix
 
 
 if __name__ == "__main__":
-    np.ndarray((2,2))
-    boruvka(np.ndarray([1,2],[2,1]))
+    test = np.ones((7,7))
+    test = 2*test
+    test[0][1] = 1
+    test[1][0] = 1
+    print(boruvka(test))
