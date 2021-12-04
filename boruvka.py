@@ -29,9 +29,9 @@ def boruvka(transition_matrix: np.ndarray):
             lowest_value = -1
             for node in tree:
                 for connection in range(0, dimensions):
-                    if node == connection:
+                    if node == connection or transition_matrix[node][connection] == -1:
                         pass
-                    if transition_matrix[node][connection] < lowest_value or lowest_value < 0:
+                    elif transition_matrix[node][connection] < lowest_value or lowest_value < 0:
                         if not same_tree(new_subtrees,node,connection):
                             lowest_value = transition_matrix[node][connection]
                             lowest_path  = (node, connection)
@@ -51,14 +51,19 @@ def boruvka(transition_matrix: np.ndarray):
             minimum_spanning_matrix[lowest_path[0]][lowest_path[1]] = lowest_value
             minimum_spanning_matrix[lowest_path[1]][lowest_path[0]] = lowest_value
         subtrees = new_subtrees
+        print(subtrees)
         if len(subtrees) == 1:
             incomplete = False
     return minimum_spanning_matrix
 
 
 if __name__ == "__main__":
-    test = np.ones((7,7))
-    test = 2*test
-    test[0][1] = 1
-    test[1][0] = 1
+    #test = np.ones((7,7))
+    #test = test * -1
+    test = np.array([[-1,3,-1,1,-1,-1],
+            [3,-1,2,4,2,2],
+            [-1,2,-1,-1,1,-1],
+            [1,4,-1,-1,-1,-1],
+            [-1,2,1,-1,-1,1],
+            [-1,2,-1,-1,1,-1]])
     print(boruvka(test))
